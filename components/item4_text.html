@@ -1,0 +1,50 @@
+<div class="w-full">
+    <div class="inline-block bg-accent text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">
+        2nd Place Winner | GEODE Geoscience Datathon
+    </div>
+    
+    <h3 class="text-3xl font-extrabold text-secondary mb-4 leading-tight">
+        Nevada Play Fairway Analysis: <br>
+        <span class="text-accent italic">Deep Learning for Geothermal Exploration</span>
+    </h3>
+    
+    <div class="text-gray-600 text-lg leading-relaxed space-y-6">
+        
+        <p>
+            For the <a href="https://www.geode.energy/news/geode-datathons-call-for-participants" target="_blank" class="text-primary font-bold hover:underline">GEODE Datathon</a>, we were tasked with evaluating the Nevada Play Fairway dataset, an integrated synthesis of geological, geochemical, and geophysical signals used to identify blind geothermal systems. 
+        </p>
+
+        <p>
+            We took a novel approach by reframing traditional spatial regression as a computer vision problem. After processing and rasterizing spatial features such as geodetic strain and Euclidean distance to faults in <a href="https://www.esri.com/en-us/arcgis" target="_blank" class="text-primary font-bold hover:underline">ArcGIS</a>, I developed a 
+            <span class="relative group cursor-help text-primary font-bold border-b border-dashed border-primary">
+                Pixel-wise CNN Architecture
+                <!-- Placeholder image for your PyTorch/CNN diagram -->
+                <img src="assets/nevada_cnn_architecture.png" class="absolute bottom-full left-0 mb-2 hidden group-hover:block z-50 w-[35vw] max-w-[500px] rounded-xl shadow-2xl border border-gray-200 pointer-events-none">
+            </span> 
+            using PyTorch to predict overall site favorability.
+        </p>
+
+        <p>
+            By treating the stacked geospatial layers as a multi-channel image tensor, the model successfully captured the non-linear, spatial relationships between faults and heat anomalies. The CNN predictions highly agree with the 
+            known training locations, validating its base physical accuracy.
+        </p>
+
+        <p>
+            The true value created, however, lies in the model's extrapolation. When evaluating the difference map, our network identified 
+            <span class="relative group cursor-help text-primary font-bold border-b border-dashed border-primary">
+                highly prospective new zones
+                <!-- Placeholder image for an interesting map cross-section -->
+                <img src="assets/nevada_prospective_zones.png" class="absolute bottom-full left-0 mb-2 hidden group-hover:block z-50 w-[35vw] max-w-[500px] rounded-xl shadow-2xl border border-gray-200 pointer-events-none">
+            </span> 
+             (indicated by "darker reds" in the Difference Map) that were undervalued by standard linear methods, yet remain geologically highly promising due to their proximity to local faults and permeability corridors.
+        </p>
+
+    </div>
+    <div class="mt-8">
+        <a href="assets/nevada_presentation.pdf" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-primary hover:bg-blue-700 shadow-md transition-colors w-full sm:w-auto">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            View Full Project Presentation
+        </a>
+    </div>
+
+</div>

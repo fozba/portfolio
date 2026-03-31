@@ -1,0 +1,309 @@
+<!-- FINANCIAL TWIN MODULE START -->
+<div id="financial-twin-module" class="w-full bg-gray-50 p-6 rounded-2xl shadow-sm border border-gray-200 font-sans text-gray-900">
+
+    <!-- Header & Disclaimer -->
+    <div class="mb-4">
+        <p class="text-gray-600 text-sm italic border-l-4 border-primary pl-3 bg-white p-2 rounded">
+            <strong>Note:</strong> This interactive demo isolates the commercial levers evaluated in stochastic risk analysis. True model has many more
+                <span class="relative group cursor-help text-primary font-bold border-b border-dashed border-primary">
+                parameters
+                <!-- Sizing: 35% of screen width, max 500px -->
+                <img src="assets/sierra_inputs.png" class="absolute top-full center-0 mb-2 hidden group-hover:block z-50 w-[45vw] max-w-[1000px] rounded-xl shadow-2xl border border-gray-200 pointer-events-none">
+            </span>
+            .<br>
+        </p>
+    </div>
+
+    <!-- Controls Row: Groups A, B, C side by side -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+
+        <!-- Group A: Investment -->
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <h3 class="text-sm font-bold text-gray-800 mb-3 border-b border-gray-100 pb-2">Group A: Investment & Structuring</h3>
+            <div class="space-y-3">
+
+                <!-- VARIABLE DEPTH HOVER: Hard CAPEX -->
+                <div class="relative group cursor-help inline-block w-full">
+                    <label class="text-sm font-semibold text-gray-700 border-b border-dashed border-primary mb-1 inline-block">Hard CAPEX ($)</label>
+                    <input type="number" id="in_capex" value="31029075" step="100000" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-3 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+
+                    <!-- Tooltip -->
+                    <div class="absolute left-0 top-full mt-2 hidden group-hover:block z-50 w-[420px] bg-white p-3 rounded-xl shadow-2xl border border-gray-200 pointer-events-none">
+                        <img src="assets/capex_table.png" alt="CAPEX Breakdown" class="w-full h-auto rounded border border-gray-200">
+                        <p class="text-xs text-gray-500 mt-2 text-center">Unit economics calculated bottom-up. Value locked for dynamic demo.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="text-sm font-semibold text-gray-700 block mb-1">Debt Fraction (%)</label>
+                        <input type="number" id="in_debt" value="65" step="1" max="100" min="0" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-2 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+                    </div>
+                    <div>
+                        <label class="text-sm font-semibold text-gray-700 block mb-1">Interest Rate (%)</label>
+                        <input type="number" id="in_interest" value="8.5" step="0.1" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-2 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Group B: Commercial -->
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <h3 class="text-sm font-bold text-gray-800 mb-3 border-b border-gray-100 pb-2">Group B: Commercial & Sourcing</h3>
+            <div class="grid grid-cols-2 gap-2 mb-2">
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 block mb-1">Waha Base ($)</label>
+                    <input type="number" id="in_waha" value="1.50" step="0.1" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-2 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 block mb-1">Henry Hub ($)</label>
+                    <input type="number" id="in_henry" value="6.00" step="0.1" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-2 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 mb-2">
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 block mb-1">Waha Mix (%)</label>
+                    <input type="number" id="in_mix" value="95" step="1" max="100" min="0" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-2 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 block mb-1">Transport ($/MMBtu)</label>
+                    <input type="number" id="in_transport" value="0.60" step="0.05" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-2 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 block mb-1">Cap Rate ($/kW-mo)</label>
+                    <input type="number" id="in_caprate" value="22.50" step="0.5" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-2 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 block mb-1">Energy Rate ($/kWh)</label>
+                    <input type="number" id="in_enrate" value="0.055" step="0.001" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-2 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+                </div>
+            </div>
+        </div>
+
+        <!-- Group C: Escalators -->
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+            <h3 class="text-sm font-bold text-gray-800 mb-3 border-b border-gray-100 pb-2">Group C: Macro Escalators</h3>
+            <div class="grid grid-cols-3 gap-2">
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 block mb-1">Gas (%)</label>
+                    <input type="number" id="in_gasesc" value="3.0" step="0.1" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-2 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 block mb-1">PPA (%)</label>
+                    <input type="number" id="in_ppaesc" value="2.5" step="0.1" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-2 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+                </div>
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 block mb-1">CPI (%)</label>
+                    <input type="number" id="in_cpiesc" value="2.5" step="0.1" onchange="runModel()" class="w-full bg-gray-50 border border-gray-300 rounded-md px-2 py-1.5 focus:ring-2 focus:ring-primary focus:outline-none font-mono text-gray-800">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Live KPIs -->
+    <div class="grid grid-cols-3 gap-4 mb-4">
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-green-600 flex flex-col justify-center items-center">
+            <span class="text-gray-500 text-xs font-bold uppercase tracking-wider">Levered IRR</span>
+            <span class="text-3xl font-black text-gray-900 mt-1" id="out_xirr">--%</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-blue-600 flex flex-col justify-center items-center">
+            <span class="text-gray-500 text-xs font-bold uppercase tracking-wider">NPV (@12%)</span>
+            <span class="text-3xl font-black text-gray-900 mt-1" id="out_npv">$0.00M</span>
+        </div>
+        <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 border-l-4 border-l-orange-500 flex flex-col justify-center items-center">
+            <span class="text-gray-500 text-xs font-bold uppercase tracking-wider">Minimum DSCR</span>
+            <span class="text-3xl font-black text-gray-900 mt-1" id="out_dscr">--x</span>
+        </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="bg-white p-2 rounded-xl shadow-sm border border-gray-200" style="min-height: 380px;">
+        <div id="chart_div" style="width: 100%; height: 380px;"></div>
+    </div>
+
+</div>
+
+<!-- JAVASCRIPT ENGINE -->
+<script>
+    function getPPMT(rate, per, nper, pv) {
+        if (rate === 0) return pv / nper;
+        let pmt = (pv * rate) / (1 - Math.pow(1 + rate, -nper));
+        let interest_for_period = (pv * Math.pow(1 + rate, per - 1) - (pmt / rate) * (Math.pow(1 + rate, per - 1) - 1)) * rate;
+        return pmt - interest_for_period;
+    }
+
+    function calculateXIRR(cashFlows) {
+        let guess = 0.14; let rate = guess; let max_iter = 100; let tol = 1e-6;
+        for (let i = 0; i < max_iter; i++) {
+            let f = 0.0; let df = 0.0;
+            for (let t = 0; t < cashFlows.length; t++) {
+                let cf = cashFlows[t];
+                f += cf / Math.pow(1 + rate, t);
+                if (t > 0) df -= (t * cf) / Math.pow(1 + rate, t + 1);
+            }
+            let next_rate = rate - (f / df);
+            if (Math.abs(next_rate - rate) < tol) return next_rate * 100;
+            rate = next_rate;
+        }
+        return NaN;
+    }
+
+    function runModel() {
+        let p = {
+            capex_hard_soft: parseFloat(document.getElementById('in_capex').value),
+            debt_share: parseFloat(document.getElementById('in_debt').value) / 100,
+            interest_rate: parseFloat(document.getElementById('in_interest').value) / 100,
+            waha_gas_base: parseFloat(document.getElementById('in_waha').value),
+            henry_gas_base: parseFloat(document.getElementById('in_henry').value),
+            waha_weight: parseFloat(document.getElementById('in_mix').value) / 100,
+            transport_fee: parseFloat(document.getElementById('in_transport').value),
+            cap_rate_base: parseFloat(document.getElementById('in_caprate').value),
+            en_rate_base: parseFloat(document.getElementById('in_enrate').value),
+            gas_esc: parseFloat(document.getElementById('in_gasesc').value) / 100,
+            ppa_esc: parseFloat(document.getElementById('in_ppaesc').value) / 100,
+            cpi_esc: parseFloat(document.getElementById('in_cpiesc').value) / 100
+        };
+
+        const const_years = 1.5;
+        const dsra = 1355000;
+        const mw_delivered = 15.0;
+        const gen_mwh = 132451.2;
+        const hr = 8.114;
+        const labor_esc = 0.03;
+        const degrad_rate = 0.005;
+        const tax_drop = 0.05;
+        const prop_tax = 0.025;
+        const staff_base = 923000;
+        const ins_base = p.capex_hard_soft * 0.0075;
+        const adm_base = 75000;
+        const tax_rate = 0.21;
+        const disc_rate = 0.12;
+        const macrs_table = [0, 0.20, 0.32, 0.192, 0.1152, 0.1152, 0.0576];
+        const first_full_ops_year = Math.ceil(const_years) + 1;
+
+        let weighted_hub_price = (p.waha_weight * p.waha_gas_base) + ((1 - p.waha_weight) * p.henry_gas_base);
+        let initial_loan_draw = (p.capex_hard_soft + dsra) * p.debt_share;
+        let initial_equity_y0 = (p.capex_hard_soft + dsra) * (1 - p.debt_share);
+
+        let curr_loan_bal = initial_loan_draw;
+        let balloon_bal = 0;
+        let cash_flows = [];
+        let chartData = { years: [], tax: [], debt: [], lfcf: [], dscr: [] };
+
+        for (let yr = 0; yr <= 17; yr++) {
+            let rf = yr > 0 ? Math.max(0, Math.min(1, yr - const_years)) : 0;
+            let ti = rf > 0 ? (Math.max(yr - 1, const_years) + yr) / 2 : 0;
+
+            let total_rev = ((gen_mwh * 1000 * p.en_rate_base * Math.pow(1 + p.gas_esc, ti)) +
+                             (mw_delivered * 1000 * p.cap_rate_base * 12 * Math.pow(1 + p.ppa_esc, ti))) * rf;
+
+            let fuel = gen_mwh * (hr * Math.pow(1 + degrad_rate, ti)) *
+                       ((weighted_hub_price * Math.pow(1 + p.gas_esc, ti)) + p.transport_fee) * rf;
+            let var_om = (gen_mwh * 17.50 * Math.pow(1 + p.cpi_esc, ti)) * rf;
+            let staff = (staff_base * Math.pow(1 + labor_esc, ti)) * rf;
+
+            let stat_on = yr > 0 ? 1 : 0;
+            let ins_adm_cost = ins_base + adm_base;
+            let ins_adm = rf > 0 ? ins_adm_cost * Math.pow(1 + p.cpi_esc, ti) : ins_adm_cost * stat_on;
+            let tax_p = (p.capex_hard_soft * prop_tax) * Math.pow(1 - tax_drop, Math.max(0, yr - 2)) * stat_on;
+
+            let ebitda = total_rev - (fuel + var_om + staff + ins_adm + tax_p);
+
+            let interest = yr > 0 ? curr_loan_bal * p.interest_rate : 0;
+            let idc = yr > 0 ? interest * (1 - rf) : 0;
+
+            if (yr === Math.floor(const_years + 1)) balloon_bal = curr_loan_bal + idc;
+
+            let prin_pmt = 0;
+            if (yr >= first_full_ops_year) {
+                let amort_period = yr - (first_full_ops_year - 1);
+                if (amort_period <= 15) {
+                    prin_pmt = getPPMT(p.interest_rate, amort_period, 15, balloon_bal);
+                }
+            }
+
+            let macrs_ded = (yr >= 2 && yr - 1 < macrs_table.length) ? p.capex_hard_soft * macrs_table[yr-1] : 0;
+            let taxable_inc = ebitda - (interest - idc) - macrs_ded;
+            let tax_paid = Math.max(0, taxable_inc * tax_rate);
+
+            let debt_svc = prin_pmt + interest - idc;
+            let lfcf = ebitda - tax_paid - debt_svc;
+            if (yr === 0) lfcf = -initial_equity_y0;
+
+            curr_loan_bal = curr_loan_bal + idc - prin_pmt;
+
+            cash_flows.push(lfcf);
+
+            if (yr >= 2) {
+                chartData.years.push(yr);
+                chartData.tax.push(tax_paid / 1e6);
+                chartData.debt.push(debt_svc / 1e6);
+                chartData.lfcf.push(lfcf / 1e6);
+                if (debt_svc > 0) chartData.dscr.push((ebitda - tax_paid) / debt_svc);
+            }
+        }
+
+        let xirr = calculateXIRR(cash_flows);
+        let npv = cash_flows[0];
+        for (let i = 1; i < cash_flows.length; i++) npv += cash_flows[i] / Math.pow(1 + disc_rate, i);
+        let min_dscr = Math.min(...chartData.dscr);
+
+        document.getElementById('out_xirr').innerText = xirr.toFixed(2) + '%';
+        document.getElementById('out_npv').innerText = '$' + (npv / 1e6).toFixed(2) + 'M';
+        document.getElementById('out_dscr').innerText = min_dscr.toFixed(2) + 'x';
+
+        drawChart(chartData);
+    }
+
+function drawChart(data) {
+    let hoverTpl = '%{meta}: <b>$%{y:.2f}M</b><extra></extra>';
+
+    let trace1 = {
+        x: data.years, y: data.tax, name: 'Income Tax', meta: 'Income Tax',
+        type: 'scatter', mode: 'lines', line: {width: 0.5, color: '#9ca3af'},
+        fill: 'tozeroy', stackgroup: 'one', hovertemplate: hoverTpl
+    };
+    let trace2 = {
+        x: data.years, y: data.debt, name: 'Senior Debt', meta: 'Senior Debt',
+        type: 'scatter', mode: 'lines', line: {width: 0.5, color: '#3b82f6'},
+        fill: 'tonexty', stackgroup: 'one', hovertemplate: hoverTpl
+    };
+    let trace3 = {
+        x: data.years, y: data.lfcf, name: 'Investors (LFCF)', meta: 'Investors (LFCF)',
+        type: 'scatter', mode: 'lines', line: {width: 0.5, color: '#10b981'},
+        fill: 'tonexty', stackgroup: 'one', hovertemplate: hoverTpl
+    };
+
+    let layout = {
+        title: { text: 'Revenue Distribution', font: {color: '#111827', size: 18, family: 'sans-serif'} },
+        paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', font: { color: '#4b5563' },
+        xaxis: {
+            title: 'Project Year', gridcolor: '#f3f4f6', tickmode: 'linear', dtick: 2,
+            tickprefix: 'Year ', hoverformat: 'd'
+        },
+        yaxis: { title: 'USD (Millions)', gridcolor: '#f3f4f6' },
+        margin: { l: 50, r: 20, t: 40, b: 40 },
+        legend: { orientation: 'h', y: -0.2, x: 0.5, xanchor: 'center' },
+        hovermode: 'x unified',
+        hoverlabel: {
+            bgcolor: '#ffffff',
+            bordercolor: '#e5e7eb',
+            font: { color: '#1f2937', size: 13 },
+            namelength: -1
+        }
+    };
+
+    Plotly.react('chart_div', [trace1, trace2, trace3], layout, {responsive: true, displayModeBar: false});
+}
+
+// Allow the DOM 50ms to resolve CSS Grid widths before drawing Plotly
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => setTimeout(runModel, 50));
+    } else {
+        setTimeout(runModel, 50);
+    }
+</script>
+<!-- FINANCIAL TWIN MODULE END -->

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fehmi Ozbayrak | Subsurface & Energy Economics Portfolio</title>
+    
+    <!-- Essential Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    
+    <!-- Tailwind Customization for Light Theme -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2980b9',   /* Interactive Blue */
+                        secondary: '#1e293b', /* Dark Slate for Headers */
+                        accent: '#059669'     /* Emerald Green for Emphasis */
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <!-- THE LOADING SCREEN -->
+    <div id="page-loader" class="fixed inset-0 z-[9999] bg-gray-50 flex flex-col items-center justify-center transition-opacity duration-500">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-primary mb-4"></div>
+        <h2 class="text-xl font-bold text-secondary tracking-widest uppercase">Compiling Assets...</h2>
+    </div>
+
+    <!-- HERO / HEADER SECTION -->
+    <header class="max-w-[1600px] mx-auto px-8 lg:px-12 py-20">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-secondary tracking-tight mb-4">Fehmi Ozbayrak</h1>
+        <h2 class="text-2xl md:text-3xl text-accent font-semibold mb-6">Subsurface Engineering | Data Analytics | Energy Economics</h2>
+        <p class="text-lg text-gray-600 max-w-3xl leading-relaxed border-l-4 border-secondary pl-4">
+            PhD Candidate at UT Austin specializing in integrated basin analysis, physics-based reservoir simulation, and techno-economic modeling. Bridging the gap between complex subsurface data and commercial investment strategy.
+        </p>
+    </header>
+
+    <!-- MAIN PORTFOLIO CONTENT -->
+    <main class="max-w-[1600px] mx-auto px-8 lg:px-12 pb-24 overflow-hidden">
+
+        <!-- ITEM 1: BASIN ANALYSIS (Text Left, Plot Right) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
+            <!-- TEXT COLUMN (Left) -->
+            <div id="item1-text" class="order-2 lg:order-1"></div>
+            
+            <!-- PLOT COLUMN (Right) - IFRAME -->
+            <div id="item1-plot" class="order-1 lg:order-2 w-full h-[600px]">
+                <iframe src="components/item1_plot.html" class="w-full h-full border-0" allowtransparency="true" style="background: transparent;"></iframe>
+            </div>
+        </section>
+
+
+        <!-- ITEM 2: SIERRA SOLUTIONS (Plot Left, Text Right) -->
+        <section class="grid grid-cols-1 xl:grid-cols-12 gap-16 items-start mb-32">
+            <!-- PLOT COLUMN (Left) -->
+            <div id="item2-plot" class="order-2 lg:order-1 xl:col-span-8 w-full min-w-0"></div>
+
+            <!-- TEXT COLUMN (Right) -->
+            <div id="item2-text" class="order-1 lg:order-2 xl:col-span-4 w-full min-w-0"></div>
+        </section>
+
+
+        <!-- ITEM 3: DOCTORAL RESEARCH / VIDEO (Text Left, Plot Right) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
+            <!-- TEXT COLUMN (Left) -->
+            <div id="item3-text" class="order-2 lg:order-1 w-full"></div>
+            
+            <!-- PLOT COLUMN (Right) - INJECTED VIDEO DIV -->
+            <div id="item3-plot" class="order-1 lg:order-2 w-full h-full"></div>
+        </section>
+
+
+        <!-- ITEM 4: NEVADA PFA MAPBOX (Plot Left, Text Right) -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-32">
+            <!-- PLOT COLUMN (Left) - IFRAME -->
+            <div id="item4-plot" class="order-2 lg:order-1 w-full h-[600px]">
+                <iframe src="components/item4_plot.html" class="w-full h-full border-0" allowtransparency="true" style="background: transparent;"></iframe>
+            </div>
+            
+            <!-- TEXT COLUMN (Right) -->
+            <div id="item4-text" class="order-1 lg:order-2 w-full"></div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-secondary text-white py-12 text-center">
+        <p class="text-gray-400 text-sm">© 2026 Fehmi Ozbayrak. Built with Python, Tailwind, and Plotly.</p>
+    </footer>
+
+    <!-- MODULAR COMPONENT LOADER & SMART TOOLTIPS -->
+    <script>
+        async function loadComponent(id, file) {
+            try {
+                const response = await fetch(file);
+                if (response.ok) {
+                    const html = await response.text();
+                    const container = document.getElementById(id);
+                    container.innerHTML = html;
+                    
+                    const scripts = container.querySelectorAll('script');
+                    scripts.forEach(oldScript => {
+                        const newScript = document.createElement('script');
+                        Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                        newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                        oldScript.parentNode.replaceChild(newScript, oldScript);
+                    });
+                }
+            } catch (error) { console.error("Error loading " + file, error); }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Load main components 
+            // Notice item1-plot and item4-plot are skipped because they are native iframes now!
+            await Promise.all([
+                loadComponent('item1-text', 'components/item1_text.html'),
+                loadComponent('item2-text', 'components/item2_text.html'),
+                loadComponent('item2-plot', 'components/item2_plot.html'),
+                loadComponent('item3-text', 'components/item3_text.html'),
+                loadComponent('item3-plot', 'components/item3_plot.html'), // Video loads perfectly here
+                loadComponent('item4-text', 'components/item4_text.html')
+            ]);
+
+            // 2. Fetch nested HTML assets
+            const nestedIncludes = document.querySelectorAll('[data-include]');
+            for (let el of nestedIncludes) {
+                try {
+                    const res = await fetch(el.getAttribute('data-include'));
+                    if (res.ok) el.innerHTML = await res.text();
+                } catch(e) { console.error("Error fetching nested HTML", e); }
+            }
+
+            // 3. Automated Smart Tooltip Positioning
+            document.querySelectorAll('.smart-tooltip-trigger').forEach(trigger => {
+                trigger.addEventListener('mouseenter', () => {
+                    const tooltip = trigger.querySelector('.smart-tooltip');
+                    if(!tooltip) return;
+                    
+                    tooltip.style.left = '50%';
+                    tooltip.style.right = 'auto';
+                    tooltip.style.transform = 'translateX(-50%)';
+                    
+                    requestAnimationFrame(() => {
+                        const rect = tooltip.getBoundingClientRect();
+                        const padding = 20; 
+                        
+                        if (rect.right > window.innerWidth - padding) {
+                            tooltip.style.left = 'auto';
+                            tooltip.style.right = '0';
+                            tooltip.style.transform = 'none';
+                        } 
+                        else if (rect.left < padding) {
+                            tooltip.style.left = '0';
+                            tooltip.style.right = 'auto';
+                            tooltip.style.transform = 'none';
+                        }
+                    });
+                });
+            });
+
+            // 4. FADE OUT THE LOADER ONCE EVERYTHING IS READY
+            const loader = document.getElementById('page-loader');
+            loader.classList.add('opacity-0'); 
+            setTimeout(() => loader.remove(), 500); 
+        });
+    </script>
+</body>
+</html>
